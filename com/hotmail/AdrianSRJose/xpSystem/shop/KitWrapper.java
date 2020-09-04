@@ -1,4 +1,4 @@
-package com.hotmail.AdriaSRJose.vaultPlugin;
+package com.hotmail.AdrianSRJose.xpSystem.shop;
 
 import com.hotmail.AdrianSRJose.AnniPro.kits.Kit;
 
