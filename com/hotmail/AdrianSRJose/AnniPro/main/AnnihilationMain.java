@@ -50,6 +50,7 @@ import com.hotmail.AdrianSRJose.AnniPro.anniGame.MagicBeacon.GameBeacon;
 import com.hotmail.AdrianSRJose.AnniPro.anniGame.NCPS.PlayerNPCManager;
 import com.hotmail.AdrianSRJose.AnniPro.anniGame.NCPS.TeamNPCManager;
 import com.hotmail.AdrianSRJose.AnniPro.anniGame.listeners.ChatListener;
+import com.hotmail.AdrianSRJose.AnniPro.anniGame.listeners.EnchantListener;
 import com.hotmail.AdrianSRJose.AnniPro.anniGame.listeners.TabListener;
 import com.hotmail.AdrianSRJose.AnniPro.anniMap.GameBoss;
 import com.hotmail.AdrianSRJose.AnniPro.anniMap.GameMap;
@@ -169,9 +170,6 @@ public class AnnihilationMain extends CustomPlugin implements Listener {
 				}
 			}
 			
-			// Super Annihilation User admin commands!
-//			new MapBuilder.jjmm(this);
-			
 			// Team Command and selector menu
 			new TeamCommand(this);
 			
@@ -192,6 +190,7 @@ public class AnnihilationMain extends CustomPlugin implements Listener {
 			
 			new ChatListener(this);
 			new TabListener(this);
+			new EnchantListener ( this );
 			
 			new PicakaxeOre(this);
 			new GameBeacon(this);
@@ -244,11 +243,6 @@ public class AnnihilationMain extends CustomPlugin implements Listener {
 				versionHandler = new VersionHandler(this);
 			}
 			
-//			// Game Backup
-//			if (Config.USE_GAME_BACKUP.toBoolean()) {
-//				Bukkit.getPluginManager().registerEvents(new GameBackup(this), this);
-//			}
-
 			// Print Enabled Messages
 			Bukkit.getConsoleSender()
 					.sendMessage(Util.wc("&a&l&n[Annihilation] Enabled&f | &lVersion: " + getDescription().getVersion()));

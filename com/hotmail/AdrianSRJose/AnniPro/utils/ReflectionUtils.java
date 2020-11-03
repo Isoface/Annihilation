@@ -15,6 +15,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
+import com.hotmail.AdrianSR.core.util.RandomUtils;
 import com.hotmail.AdrianSR.core.util.version.ServerVersion;
 
 /**
@@ -851,12 +852,16 @@ public final class ReflectionUtils {
 	public static Method CRAFT_ENTITY_HANDLE; // 'getHandle()', 'CraftEntity' class, method.
 	// NMS:
 	public static final String NMS_PREFIX = "net.minecraft.server.";
-	public static Class<?> NMS_ENTITY;          // nms 'Entity' class.
-	public static Field NMS_ENTITY_NOCLIP;      // nms 'Entity' class, 'noclip' field.
-	public static Method NMS_ENTITY_SILENT;     // nms 'Entity' class, set silent method.
-	public static Method NMS_ENTITY_IS_SILENT;  // nms 'Entity' class, is silent method.
-	public static Class<?> NMS_ARMORSTAND;      // nms 'EntityAmorStand' class.
-	public static Field NMS_ARMORSTAND_FIELD_H; // nms 'EntityAmorStand' class, 'h' field.
+	public static Class<?> NMS_ENTITY;                 // nms 'Entity' class.
+	public static Field NMS_ENTITY_NOCLIP;             // nms 'Entity' class, 'noclip' field.
+	public static Method NMS_ENTITY_SILENT;            // nms 'Entity' class, set silent method.
+	public static Method NMS_ENTITY_IS_SILENT;         // nms 'Entity' class, is silent method.
+	public static Class<?> NMS_ARMORSTAND;             // nms 'EntityAmorStand' class.
+	public static Field NMS_ARMORSTAND_FIELD_H;        // nms 'EntityAmorStand' class, 'h' field.
+	public static Class < ? > ENTITY_HUMAN_CLASS;      // nms 'EntityHuman' class.
+	public static Field HUMAN_ENTITY_ACTIVE_CONTAINER; // nms 'EntityHuman' class, 'activeContainer' field.
+	public static Class < ? > CONTAINER_ENCHANT_TABLE_CLASS; // nms 'ContainerEnchantTable' class.
+	public static Field ENCHANT_CONTAINER_SEED_FIELD; // nms 'ContainerEnchantTable', 'f' field (container seed).
 	// SPIGOT VERSION
 	public static String VERSION;
 	
@@ -951,6 +956,26 @@ public final class ReflectionUtils {
 
 				// get field.
 				NMS_ARMORSTAND_FIELD_H = NMS_ARMORSTAND.getDeclaredField(h_field_name);
+			}
+			
+			// get 'activeContainer' field from 'EntityHuman' class.
+			ENTITY_HUMAN_CLASS            = Class.forName ( NMS_PREFIX + VERSION + ".EntityHuman" );
+			HUMAN_ENTITY_ACTIVE_CONTAINER = ENTITY_HUMAN_CLASS.getField ( "activeContainer" );
+			
+			// get 'ContainerEnchantTable' class.
+			CONTAINER_ENCHANT_TABLE_CLASS = Class.forName ( NMS_PREFIX + VERSION + ".ContainerEnchantTable" );
+			
+			// get 'f' field from 'ContainerEnchantTable' class (container seed).
+			{
+				String f_field_name = "f";
+				
+				switch ( VERSION ) {
+				default:
+					f_field_name = "f";
+					break;
+				}
+				
+				ENCHANT_CONTAINER_SEED_FIELD = CONTAINER_ENCHANT_TABLE_CLASS.getField ( f_field_name );
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -1198,6 +1223,48 @@ public final class ReflectionUtils {
 				t.printStackTrace();
 				return false;
 			}
+		}
+	}
+	
+	/**
+	 * Gets player open container.
+	 * <p>
+	 * @param player the player to get from.
+	 * @return the open container, or null if no container is open.
+	 */
+	public static Object getOpenContainer ( Player player ) {
+		checkIsInitializeReflection ( );
+		
+		try {
+			return HUMAN_ENTITY_ACTIVE_CONTAINER.get ( player.getClass ( ).getMethod ( "getHandle" ).invoke ( player ) );
+		} catch ( IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException
+				| SecurityException ex ) {
+			ex.printStackTrace ( );
+			return null;
+		}
+	}
+	
+	/**
+	 * Reset enchantment table enchantment offers.
+	 * <p>
+	 * @param container the enchantment table container.
+	 */
+	public static void resetOffers ( Object container ) {
+		checkIsInitializeReflection ( );
+		
+		if ( CONTAINER_ENCHANT_TABLE_CLASS.isAssignableFrom ( container.getClass ( ) ) ) {
+			try {
+				boolean accessible = ENCHANT_CONTAINER_SEED_FIELD.isAccessible ( );
+				
+				ENCHANT_CONTAINER_SEED_FIELD.setAccessible ( true );
+				ENCHANT_CONTAINER_SEED_FIELD.set ( container , RandomUtils.RANDOM.nextInt ( ) );
+				ENCHANT_CONTAINER_SEED_FIELD.setAccessible ( accessible );
+			} catch ( IllegalArgumentException | IllegalAccessException ex ) {
+				ex.printStackTrace ( );
+			}
+		} else {
+			throw new ClassCastException ( 
+					"the provided container is not a valid instance of " + CONTAINER_ENCHANT_TABLE_CLASS.getName ( ) );
 		}
 	}
 	

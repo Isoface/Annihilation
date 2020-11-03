@@ -106,8 +106,12 @@ public class KitLoading implements Listener, CommandExecutor {
 
 			// Get URL Class Loader
 			URLClassLoader loader = new URLClassLoader(urls, this.getClass().getClassLoader());
-			for (File file : files) {
-				List<String> names = getClassNames(file);
+			for ( File file : files ) {
+				List < String > names = getClassNames ( file );
+				if ( names == null ) {
+					continue;
+				}
+				
 				try {
 					for (String name : names) {
 						Class<?> cl = null;

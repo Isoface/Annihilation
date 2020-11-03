@@ -35,7 +35,8 @@ public enum Config {
 	// GAME
 	USE_MOTD("Game.use-motd", false),
 	USE_OLD_ENCHANTMENT_SYSTEM("Game.use-old-enchant-system", true),
-	USE_OWNER_MARK("Game.use-owner-mark", true),
+	OLD_ENCHANTMENT_SYSTEM_RESET_OFFERS ( "Game.old-enchant-system-reset-offers" , true ),
+	OLD_ENCHANTMENT_SYSTEM_FULL_COST ( "Game.old-enchant-system-full-cost" , true ),
 	USE_AUTO_LAPIZ("Game.use-auto-lapiz", true),
 	USE_SPECIFIC_TOOL("Game.use-specific-tool", true),
 	USE_PERMISSIONS_PREFIX("Game.use-Permissions-prefix", true),

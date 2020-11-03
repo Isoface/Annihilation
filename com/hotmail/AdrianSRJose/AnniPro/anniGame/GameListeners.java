@@ -1,7 +1,6 @@
 package com.hotmail.AdrianSRJose.AnniPro.anniGame;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -46,7 +44,6 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.EnchantingInventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Dye;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -454,90 +451,8 @@ public class GameListeners implements Listener {
 		}
 		//
 		e.getInventory().setItem(1, dye.toItemStack(64)); /* add lapis */
-		Player p = e.getEnchanter();
-		//
-		if (p == null) {
-			return;
-		}
-
-		// --- Old Enchant
-		if (Config.USE_OLD_ENCHANTMENT_SYSTEM.toBoolean()) {
-			Bukkit.getScheduler().runTaskLater(AnnihilationMain.INSTANCE, new Runnable() {
-				@Override
-				public void run() {
-					if (KitUtils.isValidPlayer(p))
-						p.setLevel(p.getLevel() - e.getExpLevelCost() + (e.whichButton() + 1));
-				}
-			}, 2L);
-		}
 	}
-
-	// Add creator name on Craft Item
-	@EventHandler
-	public void onCraftAItem(CraftItemEvent eve) {
-		if (!Config.USE_OWNER_MARK.toBoolean()) {
-			return;
-		}
-
-		if (eve.getCurrentItem() == null) {
-			return;
-		}
-
-		final Player p = (Player) eve.getWhoClicked();
-		final AnniPlayer ap = AnniPlayer.getPlayer(p);
-		if (ap == null || !ap.hasTeam()) {
-			return;
-		}
-
-		final ItemStack result = eve.getCurrentItem();// eve.getRecipe().getResult();
-		ItemMeta meta = result.getItemMeta();
-		if (meta == null) {
-			meta = Bukkit.getItemFactory().getItemMeta(result.getType());
-		}
-
-		String type = "";
-
-		String rt = result.getType().name();
-		if (rt == null)
-			return;
-
-		if (rt.contains("SWORD"))
-			type = "Sword";
-		else if (rt.contains("PICKAXE"))
-			type = "Pickaxe";
-		else if (rt.contains("AXE") && !rt.contains("PICKAXE"))
-			type = "Axe";
-		else if (rt.contains("SPADE"))
-			type = "Shovel";
-		else if (result.getType().equals(org.bukkit.Material.SHEARS))
-			type = "Shears";
-		else if (result.getType().equals(org.bukkit.Material.FLINT_AND_STEEL))
-			type = "Lighter";
-		else if (result.getType().equals(org.bukkit.Material.FISHING_ROD))
-			type = "Fishing rod";
-		else if (result.getType().equals(org.bukkit.Material.BOW))
-			type = "Bow";
-		else if (rt.contains("HOE"))
-			type = "Hoe";
-		else if (rt.contains("HELMET"))
-			type = "Helmet";
-		else if (rt.contains("BOOTS"))
-			type = "Boots";
-		else if (rt.contains("CHESTPLATE"))
-			type = "Chestplate";
-		else if (rt.contains("LEGGINGS"))
-			type = "Leggings";
-
-		List<String> l = new ArrayList<String>();
-
-		if (!type.equals("")) {
-			Util.addToList(l, "", ap.getTeam().getColor().toString() + p.getName() + " " + type);
-		}
-		//
-		meta.setLore(l);
-		result.setItemMeta(meta);
-	}
-
+	
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void pingServer(ServerListPingEvent event) {
 		if (Config.USE_MOTD.toBoolean()) {

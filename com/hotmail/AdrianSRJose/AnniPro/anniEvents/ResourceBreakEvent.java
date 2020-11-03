@@ -11,9 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import com.hotmail.AdrianSRJose.AnniPro.anniGame.AnniPlayer;
 import com.hotmail.AdrianSRJose.AnniPro.anniMap.RegeneratingBlock;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class ResourceBreakEvent extends Event implements Cancellable {
 	
 	private static final HandlerList list = new HandlerList();
@@ -25,7 +22,7 @@ public class ResourceBreakEvent extends Event implements Cancellable {
 	private TimeUnit regenerationTimeUnit;
 	private final Block block;
 
-	private AnniPlayer player;
+	private AnniPlayer player;	
 
 	public ResourceBreakEvent(AnniPlayer player, RegeneratingBlock resource, Block block, int XP, ItemStack... endResult) {
 		this.player = player;

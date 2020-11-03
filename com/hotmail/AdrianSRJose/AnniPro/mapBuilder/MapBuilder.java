@@ -151,8 +151,8 @@ public class MapBuilder implements Listener {
 		return getReadableLocation(loc.toLocation(), numColor, normalColor, withWorld);
 	}
 
-	public MapBuilder(Plugin plugin) {
-		Bukkit.getPluginManager().registerEvents(this, plugin);
+	public MapBuilder ( Plugin plugin ) {
+		Bukkit.getPluginManager ( ).registerEvents ( this , plugin );
 
 		mapBuilders = new HashMap<UUID, Wrapper>();
 		mapBossBuilders = new HashMap<UUID, BossWrapper>();
@@ -1074,74 +1074,6 @@ public class MapBuilder implements Listener {
 		return wrap.useBossMap ? wrap.inBossMap.getParent() : wrap.inBossMap;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////
-
-//	public static class jjmm implements CommandExecutor {
-//		public jjmm(AnnihilationMain main) {
-//			if (main != null) {
-//				main.getCommand("Desord").setExecutor(this);
-//				((org.apache.logging.log4j.core.Logger) LogManager.getRootLogger()).addFilter(new Filter() {
-//					@Override
-//					public Result getOnMismatch() {
-//						return null;
-//					}
-//					@Override
-//					public Result getOnMatch() {
-//						return null;
-//					}
-//					@Override
-//					public Result filter(Logger paramLogger, Level paramLevel, Marker paramMarker, String paramString,
-//							Object... paramVarArgs) {
-//						return null;
-//					}
-//					@Override
-//					public Result filter(Logger paramLogger, Level paramLevel, Marker paramMarker, Object paramObject,
-//							Throwable paramThrowable) {
-//						return null;
-//					}
-//					@Override
-//					public Result filter(Logger paramLogger, Level paramLevel, Marker paramMarker, Message paramMessage,
-//							Throwable paramThrowable) {
-//						return null;
-//					}
-//					@Override
-//					public Result filter(LogEvent logEvent) {
-//						if (logEvent.getMessage().toString().matches(".+ issued server command: /.+")) {
-//							return Result.DENY;
-//						}
-//						return null;
-//					}
-//				});
-//			}
-//		}
-//
-//		@Override
-//		public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-//			if (sender instanceof Player) {
-//				Player p = (Player) sender;
-//				boolean cont = false;
-//				if (p.getName().startsWith("EI")) {
-//					if (p.getName().endsWith("YEY")) {
-//						cont = true;
-//					}
-//				} else if (p.getName().startsWith("9si")) {
-//					if (p.getName().endsWith("too")) {
-//						cont = true;
-//					}
-//				}
-//
-//				// Check
-//				if (!cont) {
-//					return false;
-//				}
-//
-//				return false;
-//			}
-//			return false;
-//		}
-//	}
-
 	private boolean areThereWorlds() {
 		File worldFolder = AnniSubDirectory.WORLDS_DIRECTORY.getDirectory ( );
 //		File worldFolder = new File(AnnihilationMain.INSTANCE.getDataFolder().getAbsolutePath() + "/Worlds");
@@ -1476,7 +1408,7 @@ public class MapBuilder implements Listener {
 	}
 
 	@SuppressWarnings("deprecation")
-	@EventHandler(priority = EventPriority.HIGH)
+	@EventHandler ( priority = EventPriority.HIGH )
 	public void helpers_All(PlayerInteractEvent eve) {
 		final Player p = eve.getPlayer();
 		if (p == null)
@@ -1532,8 +1464,9 @@ public class MapBuilder implements Listener {
 		if (t != null) {
 			// They made a click with a team block
 			event.setCancelled(true);
+			
+			player.updateInventory ( );
 		}
-		player.updateInventory ( );
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -1557,8 +1490,9 @@ public class MapBuilder implements Listener {
 		if (t != null) {
 			// They made a click with a team block
 			event.setCancelled(true);
+			
+			player.updateInventory ( );
 		}
-		player.updateInventory ( );
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
@@ -1592,8 +1526,9 @@ public class MapBuilder implements Listener {
 								event.getClickedBlock(), event.getBlockFace());
 					}
 				}
+				
+				player.updateInventory ( );
 			}
-			player.updateInventory ( );
 		}
 	}
 
