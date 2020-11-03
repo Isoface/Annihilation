@@ -31,10 +31,11 @@ import com.hotmail.AdrianSRJose.AnniPro.utils.Util;
 import com.hotmail.AdrianSRJose.base.ConfigurableKit;
 import com.hotmail.AdrianSRJose.base.DelayUpdate;
 import com.hotmail.AdrianSRJose.base.Delays;
-import com.hotmail.AdrianSRJose.events.Acrobat_JumpEvent;
+import com.hotmail.AdrianSRJose.events.AcrobatJumpEvent;
 
 public class Acrobat extends ConfigurableKit {
-	private String reuseMessage = ChatColor.DARK_GRAY + "Now You Can reuse the Acrobat " + ChatColor.GOLD + "§lJump";
+	
+	private String reuseMessage = ChatColor.DARK_GRAY + "Now you can " + ChatColor.GOLD + "jump again!";
 	private boolean useReuseMessage = true;
 	private double yMultipler = 1.6D;
 
@@ -44,7 +45,12 @@ public class Acrobat extends ConfigurableKit {
 		final Acrobat k = this;
 		Delays.getInstance().createNewDelay(getInternalName(), new DelayUpdate() {
 			@Override
-			public void update(Player player, int secondsLeft) {
+			public void update ( AnniPlayer ap , int secondsLeft ) {
+				if ( !ap.isOnline ( ) ) {
+					return;
+				}
+				
+				Player player = ap.getPlayer ( );
 				if (secondsLeft <= 0) {
 					AnniPlayer p = AnniPlayer.getPlayer(player.getUniqueId());
 
@@ -54,8 +60,8 @@ public class Acrobat extends ConfigurableKit {
 						String msg = null;
 						Object obj = p.getData("key-ajmv-anni-kit");
 						//
-						if (obj != null && obj instanceof Acrobat_JumpEvent) {
-							Acrobat_JumpEvent ajv = ((Acrobat_JumpEvent) obj);
+						if (obj != null && obj instanceof AcrobatJumpEvent) {
+							AcrobatJumpEvent ajv = ((AcrobatJumpEvent) obj);
 							c = ajv.isCancelled() ? false : true;
 							bm = ajv.getUseReuseMessage();
 							ajv.setSetReuseMessage(reuseMessage);
@@ -132,7 +138,7 @@ public class Acrobat extends ConfigurableKit {
 		if (Game.isGameRunning() && p.getKit().equals(this)) {
 			if (p.getTeam() != null) {
 				if (player.getGameMode() != GameMode.CREATIVE) {
-					final Acrobat_JumpEvent ajv = new Acrobat_JumpEvent(p);
+					final AcrobatJumpEvent ajv = new AcrobatJumpEvent(p);
 					ajv.setMultiplicatedHeight(yMultipler);
 					AnniEvent.callEvent(ajv);
 					//

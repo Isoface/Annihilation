@@ -109,8 +109,8 @@ public abstract class ClassItemKit extends ConfigurableKit {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void specialItemActionCheck(final PlayerInteractEvent event) {
-		// check is using default checking, game is running, and is not on the lobby
-		if (!useDefaultChecking() || Game.isNotRunning() || KitUtils.isOnLobby(event.getPlayer())) {
+		// check is using default checking and game is running.
+		if ( !useDefaultChecking ( ) || Game.isNotRunning ( ) ) {
 			return;
 		}
 		

@@ -10,13 +10,13 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.hotmail.AdrianSRJose.AnniPro.anniGame.AnniPlayer;
 
-public class Defender_DefendHisNexusEvent extends AnniPlayerEvent implements Cancellable {
+public class DefenderNexusDefendEvent extends AnniPlayerEvent implements Cancellable {
 	private static final HandlerList list = new HandlerList();
 	private boolean cancelled;
 	private boolean addPotions = true;
 	private final List<PotionEffect> potions;
 
-	public Defender_DefendHisNexusEvent(AnniPlayer who) {
+	public DefenderNexusDefendEvent(AnniPlayer who) {
 		super(who);
 		potions = new ArrayList<PotionEffect>();
 	}

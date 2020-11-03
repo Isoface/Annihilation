@@ -23,8 +23,8 @@ import com.hotmail.AdrianSRJose.AnniPro.anniGame.Nexus;
 import com.hotmail.AdrianSRJose.AnniPro.kits.KitUtils;
 import com.hotmail.AdrianSRJose.AnniPro.kits.Loadout;
 import com.hotmail.AdrianSRJose.base.ConfigurableKit;
-import com.hotmail.AdrianSRJose.events.Defender_DefendHisNexusEvent;
-import com.hotmail.AdrianSRJose.events.Defender_KillPlayersOnHisNexusEvent;
+import com.hotmail.AdrianSRJose.events.DefenderNexusDefendEvent;
+import com.hotmail.AdrianSRJose.events.DefenderNexusDefendByKilling;
 
 public class Defender extends ConfigurableKit {
 	@Override
@@ -60,7 +60,7 @@ public class Defender extends ConfigurableKit {
 		final AnniPlayer killer = event.getKiller();
 		if (killer != null && killer.getKit().equals(this)
 				&& event.getAttributes().contains(KillAttribute.NEXUSDEFENSE)) {
-			Defender_KillPlayersOnHisNexusEvent eve = new Defender_KillPlayersOnHisNexusEvent(event.getKiller(),
+			DefenderNexusDefendByKilling eve = new DefenderNexusDefendByKilling(event.getKiller(),
 					event.getPlayer());
 			AnniEvent.callEvent(eve);
 			//
@@ -83,7 +83,7 @@ public class Defender extends ConfigurableKit {
 					final Player player = (Player) event.getEntity();
 					if (KitUtils.isValidPlayer(player)
 							&& player.getLocation().distanceSquared(nexus.getLocation().toLocation()) <= 20 * 20) {
-						Defender_DefendHisNexusEvent eve = new Defender_DefendHisNexusEvent(p);
+						DefenderNexusDefendEvent eve = new DefenderNexusDefendEvent(p);
 						eve.addPotion(new PotionEffect(PotionEffectType.REGENERATION, 20 * 20, 0));
 						AnniEvent.callEvent(eve);
 						// ---

@@ -6,7 +6,7 @@ import org.bukkit.event.HandlerList;
 
 import com.hotmail.AdrianSRJose.AnniPro.anniGame.AnniPlayer;
 
-public class Acrobat_JumpEvent extends AnniPlayerEvent implements Cancellable {
+public class AcrobatJumpEvent extends AnniPlayerEvent implements Cancellable {
 	private static final HandlerList h = new HandlerList();
 	private boolean isCancelled;
 
@@ -14,11 +14,11 @@ public class Acrobat_JumpEvent extends AnniPlayerEvent implements Cancellable {
 	private double height = 1.6;
 	private String message = ChatColor.DARK_GRAY + "Now You Can reuse the Acrobat " + ChatColor.GOLD + "§lJump";
 
-	public Acrobat_JumpEvent(AnniPlayer who) {
+	public AcrobatJumpEvent(AnniPlayer who) {
 		super(who);
 	}
 
-	public Acrobat_JumpEvent(AnniPlayer who, double MultiplicatedHeight) {
+	public AcrobatJumpEvent(AnniPlayer who, double MultiplicatedHeight) {
 		super(who);
 		this.height = MultiplicatedHeight;
 	}

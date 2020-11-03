@@ -6,13 +6,13 @@ import org.bukkit.event.HandlerList;
 
 import com.hotmail.AdrianSRJose.AnniPro.anniGame.AnniPlayer;
 
-public class Defender_KillPlayersOnHisNexusEvent extends AnniPlayerEvent implements Cancellable {
+public class DefenderNexusDefendByKilling extends AnniPlayerEvent implements Cancellable {
 	private static final HandlerList list = new HandlerList();
 	private boolean cancelled;
 	private final AnniPlayer victim;
 	private int givedExp = 20;
 
-	public Defender_KillPlayersOnHisNexusEvent(AnniPlayer who, AnniPlayer victim) {
+	public DefenderNexusDefendByKilling(AnniPlayer who, AnniPlayer victim) {
 		super(who);
 		this.victim = victim;
 	}

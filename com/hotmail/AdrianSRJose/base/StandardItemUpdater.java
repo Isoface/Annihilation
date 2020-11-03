@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.google.common.base.Function;
+import com.hotmail.AdrianSRJose.AnniPro.anniGame.AnniPlayer;
 
 public class StandardItemUpdater implements DelayUpdate {
 	private final Function<ItemStack, Boolean> function;
@@ -22,17 +23,21 @@ public class StandardItemUpdater implements DelayUpdate {
 	}
 
 	@Override
-	public void update(Player player, int secondsLeft) {
-		for (Entry<Integer, ? extends ItemStack> entry : player.getInventory().all(mat).entrySet()) {
-			if (function.apply(entry.getValue())) {
-				ItemMeta m = entry.getValue().getItemMeta();
-				if (secondsLeft <= 0) {
-					m.setDisplayName(itemName + KitConfig.getInstance().getReadyPrefix());
+	public void update ( AnniPlayer ap , int secondsLeft ) {
+		if ( ap.isOnline ( ) ) {
+			Player player = ap.getPlayer ( );
+			
+			for (Entry<Integer, ? extends ItemStack> entry : player.getInventory().all(mat).entrySet()) {
+				if (function.apply(entry.getValue())) {
+					ItemMeta m = entry.getValue().getItemMeta();
+					if (secondsLeft <= 0) {
+						m.setDisplayName(itemName + KitConfig.getInstance().getReadyPrefix());
+					}
+					else {
+						m.setDisplayName(itemName + ChatColor.RED + " " + secondsLeft);
+					}
+					entry.getValue().setItemMeta(m);
 				}
-				else {
-					m.setDisplayName(itemName + ChatColor.RED + " " + secondsLeft);
-				}
-				entry.getValue().setItemMeta(m);
 			}
 		}
 	}

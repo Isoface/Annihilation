@@ -47,7 +47,7 @@ public class Electrizador extends ConfigurableKit {
 		//
 		Delays.getInstance().createNewDelay(getInternalName(), new DelayUpdate() {
 			@Override
-			public void update(Player player, int secondsLeft) {
+			public void update ( AnniPlayer player, int secondsLeft) {
 			}
 		});
 	}

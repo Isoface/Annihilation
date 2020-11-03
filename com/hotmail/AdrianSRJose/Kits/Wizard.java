@@ -339,7 +339,7 @@ public class Wizard extends ClassItemKit {
 			return;
 		}
 
-		if (type.equals(UniversalMaterial.COAL)) {
+		if (type.equals(UniversalMaterial.COAL.getMaterial())) {
 			for (ItemStack ww : p.getInventory()) {
 				if (isSpecialItem(ww)) {
 					wand.setMode(p, WandMode.Darkness);
@@ -348,7 +348,7 @@ public class Wizard extends ClassItemKit {
 			return;
 		}
 
-		if (type.equals(UniversalMaterial.MAGMA_CREAM)) {
+		if (type.equals(UniversalMaterial.MAGMA_CREAM.getMaterial())) {
 			for (ItemStack ww : p.getInventory()) {
 				if (isSpecialItem(ww)) {
 					wand.setMode(p, WandMode.Flame);
@@ -357,7 +357,7 @@ public class Wizard extends ClassItemKit {
 			return;
 		}
 
-		if (type.equals(UniversalMaterial.STRING)) {
+		if (type.equals(UniversalMaterial.STRING.getMaterial())) {
 			for (ItemStack ww : p.getInventory()) {
 				if (isSpecialItem(ww)) {
 					wand.setMode(p, WandMode.Whirlwind);
@@ -556,8 +556,14 @@ public class Wizard extends ClassItemKit {
 							/////////////////////////////////////////////// Damage
 							for (Entity ent : bl.getNearbyEntities(4, 4, 4)) {
 								if (ent != null && ent instanceof Player) {
-									Player toD = (Player) ent;
+									Player     toD = (Player) ent;
 									AnniPlayer apD = AnniPlayer.getPlayer(toD.getUniqueId());
+									
+									if ( !Objects.equals ( apD.getID ( ) , pb.getID ( ) ) 
+											&& Objects.equals ( apD.getTeam ( ) , pb.getTeam ( ) ) ) {
+										continue;
+									}
+									
 									//
 									if (apD != null && apD.getTeam() != null) {
 
